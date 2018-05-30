@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, alex at staticlibs.net
+ * Copyright 2018, mike at myasnikov.mike@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-/* 
- * File:   crypto.hpp
- * Author: alex
+/*
+ * File:   sha1.hpp
+ * Author: mike
  *
- * Created on February 6, 2016, 6:44 PM
+ * Created on May 30, 2018, 17:51 PM
  */
 
-#ifndef STATICLIB_CRYPTO_HPP
-#define STATICLIB_CRYPTO_HPP
+#ifndef STATICLIB_CRYPTO_SHA1_HPP
+#define STATICLIB_CRYPTO_SHA1_HPP
 
-#include "staticlib/config.hpp"
+#include <string>
+#include <openssl/sha.h>
 
-#include "staticlib/crypto/crypto_utils.hpp"
-#include "staticlib/crypto/digest_sign_source.hpp"
-#include "staticlib/crypto/digest_verify_source.hpp"
-#include "staticlib/crypto/sha256_sink.hpp"
-#include "staticlib/crypto/sha256_source.hpp"
-#include "staticlib/crypto/base64.hpp"
-#include "staticlib/crypto/sha1.hpp"
+std::string sha1_encode(const std::string data){
+    const size_t size = 20;
+    unsigned char out[size];
+    char *ptr = static_cast<char*>(static_cast<void *>(out));
 
-#endif /* STATICLIB_CRYPTO_HPP */
+    SHA1(reinterpret_cast<const unsigned char*>(data.c_str()), data.length(), out);
+
+    return std::string{ptr, size};
+}
+
+#endif /* STATICLIB_CRYPTO_SHA1_HPP */
+
 
